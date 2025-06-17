@@ -6,7 +6,7 @@ import (
 	"test/book/service"
 )
 
-func RegisterBookRoutes(r *gin.Engine) {
+func RegisterRoutes(r *gin.Engine) {
 
 	userHandler := handlers.NewUserHandler(service.NewUserService())
 	userBookGroup := r.Group("/api/user")
