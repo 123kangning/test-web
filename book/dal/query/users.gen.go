@@ -30,11 +30,8 @@ func newUsersDO(db *gorm.DB, opts ...gen.DOOption) usersDO {
 	_usersDO.ALL = field.NewAsterisk(tableName)
 	_usersDO.ID = field.NewInt64(tableName, "id")
 	_usersDO.Name = field.NewString(tableName, "name")
-	_usersDO.Nickname = field.NewString(tableName, "nickname")
-	_usersDO.Email = field.NewString(tableName, "email")
 	_usersDO.Password = field.NewString(tableName, "password")
 	_usersDO.CreateTime = field.NewTime(tableName, "create_time")
-	_usersDO.LastLoginTime = field.NewTime(tableName, "last_login_time")
 	_usersDO.Status = field.NewInt32(tableName, "status")
 	_usersDO.Books = usersDOManyToManyBooks{
 		db: db.Session(&gorm.Session{}),
@@ -51,16 +48,13 @@ func newUsersDO(db *gorm.DB, opts ...gen.DOOption) usersDO {
 type usersDO struct {
 	usersDODo usersDODo
 
-	ALL           field.Asterisk
-	ID            field.Int64  // 主键
-	Name          field.String // 用户名
-	Nickname      field.String // 昵称
-	Email         field.String // 邮箱
-	Password      field.String // 密码
-	CreateTime    field.Time   // 创建时间
-	LastLoginTime field.Time   // 最后登录时间
-	Status        field.Int32  // 状态：1-正常，0-禁用
-	Books         usersDOManyToManyBooks
+	ALL        field.Asterisk
+	ID         field.Int64  // 主键
+	Name       field.String // 用户名
+	Password   field.String // 密码
+	CreateTime field.Time   // 创建时间
+	Status     field.Int32  // 状态：1-正常，0-禁用
+	Books      usersDOManyToManyBooks
 
 	fieldMap map[string]field.Expr
 }
@@ -79,11 +73,8 @@ func (u *usersDO) updateTableName(table string) *usersDO {
 	u.ALL = field.NewAsterisk(table)
 	u.ID = field.NewInt64(table, "id")
 	u.Name = field.NewString(table, "name")
-	u.Nickname = field.NewString(table, "nickname")
-	u.Email = field.NewString(table, "email")
 	u.Password = field.NewString(table, "password")
 	u.CreateTime = field.NewTime(table, "create_time")
-	u.LastLoginTime = field.NewTime(table, "last_login_time")
 	u.Status = field.NewInt32(table, "status")
 
 	u.fillFieldMap()
@@ -109,14 +100,11 @@ func (u *usersDO) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *usersDO) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 9)
+	u.fieldMap = make(map[string]field.Expr, 6)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["name"] = u.Name
-	u.fieldMap["nickname"] = u.Nickname
-	u.fieldMap["email"] = u.Email
 	u.fieldMap["password"] = u.Password
 	u.fieldMap["create_time"] = u.CreateTime
-	u.fieldMap["last_login_time"] = u.LastLoginTime
 	u.fieldMap["status"] = u.Status
 
 }

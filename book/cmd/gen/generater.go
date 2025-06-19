@@ -84,44 +84,11 @@ func main() {
 			},
 		),
 	)
-
-	alarm_rule_channels := g.GenerateModelAs("alarm_rule_channels", "AlarmRuleChannelsDO")
-	alarm_rules := g.GenerateModelAs("alarm_rules", "AlarmRulesDO",
-		gen.FieldRelate(field.Many2Many, "Channels",
-			g.GenerateModelAs("alarm_channels", "AlarmChannelsDO"),
-			&field.RelateConfig{
-				RelateSlicePointer: true,
-				GORMTag: field.GormTag{
-					"many2many":      []string{"alarm_rule_channels"},
-					"foreignKey":     []string{"ID"},
-					"joinForeignKey": []string{"RuleID"},
-					"references":     []string{"ID"},
-					"joinReferences": []string{"ChannelID"},
-				},
-			}))
-	alarm_channels := g.GenerateModelAs("alarm_channels", "AlarmChannelsDO",
-		gen.FieldRelate(field.Many2Many, "Rules",
-			alarm_rules,
-			&field.RelateConfig{
-				RelateSlicePointer: true,
-				GORMTag: field.GormTag{
-					"many2many":      []string{"alarm_rule_channels"},
-					"foreignKey":     []string{"ID"},
-					"joinForeignKey": []string{"ChannelID"},
-					"references":     []string{"ID"},
-					"joinReferences": []string{"RuleID"},
-				},
-			}),
-	)
-
 	// 应用所有模型
 	g.ApplyBasic(
 		book,
 		user,
 		userBook,
-		alarm_rule_channels,
-		alarm_rules,
-		alarm_channels,
 	)
 	// 通过ApplyInterface添加为book表添加自定义方法
 	g.ApplyInterface(func(model.Querier) {}, book)
