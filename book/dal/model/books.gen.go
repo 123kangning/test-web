@@ -16,7 +16,7 @@ type BooksDO struct {
 	Title       string     `gorm:"column:title;type:varchar(128);not null;comment:书籍名称" json:"title"`                 // 书籍名称
 	Author      string     `gorm:"column:author;type:varchar(128);not null;comment:作者" json:"author"`                 // 作者
 	Price       int32      `gorm:"column:price;type:int;not null;comment:价格" json:"price"`                            // 价格
-	PublishDate *time.Time `gorm:"column:publish_date;type:datetime;comment:出版日期" json:"publish_date"`                // 出版日期
+	PublishDate time.Time  `gorm:"column:publish_date;type:datetime;not null;comment:出版日期" json:"publish_date"`       // 出版日期
 	Users       []*UsersDO `gorm:"foreignKey:ID;joinForeignKey:BookID;joinReferences:UserID;many2many:user_books;references:ID" json:"users"`
 }
 

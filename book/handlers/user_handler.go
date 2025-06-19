@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"test/book/dal/model"
+	"test/book/entity"
 	"test/book/service"
 )
 
@@ -20,7 +20,7 @@ func NewUserHandler(s *service.UserService) *UserHandler {
 // @Summary 创建新用户
 // @Router /users [post]
 func (h *UserHandler) CreateUser(c *gin.Context) {
-	var user model.UsersDO
+	var user entity.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -31,7 +31,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, user)
+	c.JSON(http.StatusCreated, "success")
 }
 
 // GetUserBooks 获取用户书籍

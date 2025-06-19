@@ -12,5 +12,8 @@ func RegisterRoutes(r *gin.Engine) {
 	userBookGroup := r.Group("/api/user")
 	{
 		userBookGroup.GET("/:id/books", userHandler.GetUserBooks)
+		userBookGroup.POST("/", userHandler.CreateUser)
+		userBookGroup.PUT("/:id/status", userHandler.UpdateUserStatus)
+
 	}
 }
